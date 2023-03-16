@@ -1,8 +1,8 @@
 {
-  "name": "subscriber-test",
+  "name": "publisher-test",
   "version": "1.0.0",
   "description": "",
-  "main": "subscriber.js",
+  "main": "publisher.js",
   "scripts": {
     "test": "jest --watch"
   },

@@ -1,53 +1,53 @@
-const Subscriber = require("./subscriber");
+const Publisher = require("./publisher");
 
-describe("Subscriber", () => {
+describe("Publisher", () => {
   let instance;
 
   beforeEach(() => {
-    instance = new Subscriber();
+    instance = new Publisher();
   });
 
-  test("subscriber does nothing if provided bad event name", () => {
+  test("publisher does nothing if provided bad event name", () => {
     const cb = jest.fn();
     instance.subscribe("event", cb);
-    instance.emit("wrong");
+    instance.publish("wrong");
 
     expect(cb).not.toBeCalled();
   });
 
-  test("subscriber call an callback", () => {
+  test("publisher call an callback", () => {
     const cb = jest.fn();
     instance.subscribe("event", cb);
-    instance.emit("event");
+    instance.publish("event");
 
     expect(cb).toBeCalled();
   });
 
-  test("subscriber call an callback multiple times", () => {
+  test("publisher call an callback multiple times", () => {
     const cb = jest.fn();
     instance.subscribe("event", cb);
     
-    instance.emit("event");
-    instance.emit("event");
-    instance.emit("event");
+    instance.publish("event");
+    instance.publish("event");
+    instance.publish("event");
 
     expect(cb).toBeCalledTimes(3);
   });
 
-  test("subscriber calls multiple callbacks", () => {
+  test("publisher calls multiple callbacks", () => {
     const cb1 = jest.fn();
     const cb2 = jest.fn();
 
     instance.subscribe("event", cb1);
     instance.subscribe("event", cb2);
 
-    instance.emit("event");
+    instance.publish("event");
 
     expect(cb1).toBeCalled();
     expect(cb2).toBeCalled();
   });
 
-  test("subscriber calls multiple callbacks in order", () => {
+  test("publisher calls multiple callbacks in order", () => {
     const cb1 = jest.fn();
     const cb2 = jest.fn();
     const cb3 = jest.fn();
@@ -56,33 +56,33 @@ describe("Subscriber", () => {
     instance.subscribe("event", cb2);
     instance.subscribe("event", cb3);
 
-    instance.emit("event");
+    instance.publish("event");
 
     expect(cb2).toHaveBeenCalledAfter(cb1);
     expect(cb3).toHaveBeenCalledAfter(cb2);
   });
 
-  test("subscriber calls multiple events", () => {
+  test("publisher calls multiple events", () => {
     const cb1 = jest.fn();
     const cb2 = jest.fn();
 
     instance.subscribe("eventOne", cb1);
     instance.subscribe("eventTwo", cb2);
 
-    instance.emit("eventOne");
-    instance.emit("eventTwo");
+    instance.publish("eventOne");
+    instance.publish("eventTwo");
 
     expect(cb1).toBeCalled();
     expect(cb2).toBeCalled();
   });
 
-  test("subscriber calls an event with argument", () => {
+  test("publisher calls an event with argument", () => {
     const cb1 = jest.fn();
 
     instance.subscribe("event", cb1);
     
-    instance.emit("event", "myArg1");
-    instance.emit("event", "myArg2");
+    instance.publish("event", "myArg1");
+    instance.publish("event", "myArg2");
     
     expect(cb1).toBeCalledWith("myArg1");
     expect(cb1).toBeCalledWith("myArg2");
